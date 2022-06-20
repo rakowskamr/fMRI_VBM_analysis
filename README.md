@@ -1,10 +1,10 @@
 # fMRI_VBM_analysis
-Analysis pipeline for functional MRI (fMRI) and voxel-based morphometry (VBM).
+Analysis pipeline for **functional MRI** (fMRI) and **voxel-based morphometry** (VBM).
 
-Contains scripts used to analyse fMRI data during SRTT perfromance (fMRI folder) and T1w structural images (VBM folder), as well as to extract individual datapoints from the significant clusters. ‘ROI masks’ folder contains a mask for each of the pre-defined anatomical region of interest (ROI) created using an Automated Anatomical Labeling (AAL) atlas in the Wake Forest University (WFU) PickAtlas toolbox (Maldjian et al., 2003). 
+Contains scripts used to analyse fMRI data during SRTT perfromance (fMRI folder) and T1w structural images (VBM folder), as well as to extract individual datapoints from the significant clusters. ‘ROI masks’ folder contains a mask for each of the pre-defined anatomical region of interest (ROI) created using an Automated Anatomical Labeling (AAL) atlas in the Wake Forest University (WFU) PickAtlas toolbox (Maldjian et al., 2003)[^1]. 
 
 # The analysis step-by-step 
-1. fMRI folder
+**1. fMRI folder**
 - fMRI_Preprocessing.m - performs fMRI preprocessing steps
   * B0-fieldmap correction using SPM’s fieldmap toolbox (https://www.fil.ion.ucl.ac.uk/spm/toolbox/fieldmap/)
   * Realignment to the mean of the images using a least-squares approach and 6 parameter rigid body spatial transformation to correct for movement artifact 
@@ -25,7 +25,7 @@ Contains scripts used to analyse fMRI data during SRTT perfromance (fMRI folder)
 - MRI_part2_L2_sfArAtL_DESIGN_MATRIX_3_BlocksPressesBreaks_Learning.mat - example of a design matrix from participant 2, session 1, used as one of the inputs for the fMRI_FirstLevel.m script
 - pm_defaults_3TE.m - defaults for creating field map, used as one of the inputs for the fMRI_Preprocessing.m script
 
-2. VBM folder
+**2. VBM folder**
 - VBM_Preprocessing.m - performs VBM preprocessing
   * Segmentation into 3 tissue probability maps (grey matter, GM; white matter, WM; cerebrospinal fluid, CSF)
   * Spatial normalisation with DARTEL, where the GM and WM segments are used to create customized tissue-class templates and to calculate flow fields. These are subsequently applied to the native GM and WM images of each subject to generate spatially normalised and Jacobian scaled (i.e., modulated) images in the MNI space, resampled at 1.5 mm isotropic voxels. 
@@ -36,22 +36,24 @@ Contains scripts used to analyse fMRI data during SRTT perfromance (fMRI folder)
   * Sex is always specified as a covariate of no interest to control for differences between males and females. 
 - VBM_TPM_0.5thresholded_masks - a folder with SPM12 tissue probability maps of GM and WM, thresholded at 50% probability and used in the analyses of the relevant tissue
 
-3. Datapoints.m - extracts individual datapoints to check for outliers
+**3. Datapoints.m** 
+- extracts individual datapoints to check for outliers
 
-4. ROImasks - contains a mask for each of the pre-defined anatomical ROIs 
+**4. ROImasks** 
+- contains a mask for each of the pre-defined anatomical ROIs 
 
-# Requirements 
+## Requirements 
 The pipeline requires MATLAB with SPM12 toolbox (https://www.fil.ion.ucl.ac.uk/spm/) to run. Use MicroGL (https://www.nitrc.org/projects/mricrogl) to display the results.
 
-# Authors and contributors
+## Authors and contributors
 * Martyna Rakowska
 
-# Relevant methods section from Rakowska et al. (2022)
+## Relevant methods section from Rakowska et al. (2022)[^2]
 
-* Section 5.7.3.1 FMRI
-* Section 5.7.3.2 VBM
-* Section 5.7.4.3 MRI Data (statistical analysis)
+* Section *5.7.3.1 FMRI*
+* Section *5.7.3.2 VBM*
+* Section *5.7.4.3 MRI Data* (statistical analysis)
 
-# References
-* Rakowska, M., Bagrowska, P., Lazari, A., Navarrete, M., Abdellahi, M. E., Johansen-Berg, H., & Lewis, P. A. (2022). Cueing motor memory reactivation during NREM sleep engenders learning-related changes in precuneus and sensorimotor structures. bioRxiv.
-* Maldjian, J. A., Laurienti, P. J., Kraft, R. A., & Burdette, J. H. (2003). An automated method for neuroanatomic and cytoarchitectonic atlas-based interrogation of fMRI data sets. Neuroimage, 19(3), 1233-1239.
+### References
+[^2]: Rakowska, M., Bagrowska, P., Lazari, A., Navarrete, M., Abdellahi, M. E., Johansen-Berg, H., & Lewis, P. A. (2022). Cueing motor memory reactivation during NREM sleep engenders learning-related changes in precuneus and sensorimotor structures. bioRxiv.
+[^1]: Maldjian, J. A., Laurienti, P. J., Kraft, R. A., & Burdette, J. H. (2003). An automated method for neuroanatomic and cytoarchitectonic atlas-based interrogation of fMRI data sets. Neuroimage, 19(3), 1233-1239.
