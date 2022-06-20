@@ -6,17 +6,16 @@ Contains scripts used to analyse fMRI data during SRTT perfromance (fMRI folder)
 # The analysis step-by-step 
 1. fMRI folder
 - fMRI_Preprocessing.m - performs fMRI preprocessing steps
-  * B0-fieldmap correction using SPM’s fieldmap toolbox
+  * B0-fieldmap correction using SPM’s fieldmap toolbox (https://www.fil.ion.ucl.ac.uk/spm/toolbox/fieldmap/)
   * Realignment to the mean of the images using a least-squares approach and 6 parameter rigid body spatial transformation to correct for movement artifact 
   * Co-registration with the participants’ individual structural image using rigid body model
-  * Spatial normalisation to MNI space via the segmentation routine and resampling to 2 mm voxels with a 4th degree B-spline interpolation
+  * Spatial normalisation to MNI space via the segmentation routine 
   * Smoothing with 8 mm full-width half maximum (FWHM) Gaussian kernel 
 - fMRI_FirstLevel.m - performs subject-level analysis of the fMRI data using a general linear model (GLM)
-  * Each block type (cued sequence, uncued sequence, cued random, uncued random) and the breaks between the blocks are modelled as five separate, boxcar regressors; button presses are modelled as single events with zero duration. 
+  * Each SRTT block type (cued sequence, uncued sequence, cued random, uncued random) and the breaks between the blocks are modelled as five separate, boxcar regressors; button presses are modelled as single events with zero duration. 
   * Regressors are temporally convolved with a canonical hemodynamic response function (HRF) model embedded in SPM, with no derivatives. 
   * 6 head motion parameters generated during realignment are included in the design matrix as non-convolved nuisance regressors. 
   * A high-pass filter with a cut-off period of 128 s is used to remove low-frequency signal drifts. 
-  * Serial correlations in the fMRI signal are corrected for using a first-order autoregressive model during REML parameter estimation.
   * Contrast images are obtained for each block type of interest ([cued sequence] and [uncued sequence]), as well as for the difference between the two ([cued > uncued]). The resulting parameter images are then used as an input for the group-level analysis. 
 - fMRI_SecondLevel_onewayTtest.m - performs group-level analysis on the fMRI data using one-way t-tests 
   * To compare functional brain activity during the cued and uncued sequence perform one-way t-tests on the [cued > uncued] contrast for each session
@@ -28,7 +27,7 @@ Contains scripts used to analyse fMRI data during SRTT perfromance (fMRI folder)
 
 2. VBM folder
 - VBM_Preprocessing.m - performs VBM preprocessing
-  * Segmentation into 3 tissue probability maps (grey matter, GM; white matter, WM; cerebrospinal fluid, CSF), with 2 Gaussians used to model each tissue class, very light bias regularisation (0.0001), 60 mm bias FWHM cut-off and default warping parameters. 
+  * Segmentation into 3 tissue probability maps (grey matter, GM; white matter, WM; cerebrospinal fluid, CSF)
   * Spatial normalisation with DARTEL, where the GM and WM segments are used to create customized tissue-class templates and to calculate flow fields. These are subsequently applied to the native GM and WM images of each subject to generate spatially normalised and Jacobian scaled (i.e., modulated) images in the MNI space, resampled at 1.5 mm isotropic voxels. 
   * Smoothing with 8 mm FWHM Gaussian kernel, in line with the fMRI analysis. 
 - fMRI_SecondLevel_onewayTtest.m - performs group-level one-way t-tests of the VBM data, separately for GM and WM (as specified by 50% tissue probability maps)
